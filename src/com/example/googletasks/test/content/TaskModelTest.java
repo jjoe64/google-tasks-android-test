@@ -19,7 +19,7 @@ public class TaskModelTest extends TestCase {
 
 		long _id = 1;
 		int done = 1;
-		String dueDate = "25-11-2011";
+		String dueDate = "2011-11-25";
 		String name = "der Test";
 		String notes = "testen testen testen";
 
