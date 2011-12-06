@@ -2,12 +2,12 @@ package com.example.googletasks.test.content;
 
 import java.util.Calendar;
 
-import junit.framework.TestCase;
 import android.database.MatrixCursor;
+import android.test.AndroidTestCase;
 
 import com.example.googletasks.content.TaskModel;
 
-public class TaskModelTest extends TestCase {
+public class TaskModelTest extends AndroidTestCase {
 	public void testIsOverdue() {
 		MatrixCursor cursor = new MatrixCursor(
 				new String[] {
