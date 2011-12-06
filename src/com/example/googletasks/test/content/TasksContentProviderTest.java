@@ -1,5 +1,6 @@
 package com.example.googletasks.test.content;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
@@ -13,11 +14,7 @@ public class TasksContentProviderTest extends ProviderTestCase2<TasksContentProv
 	private static final String TEST_NOTES = "bla blub";
 	private static final String TEST_DUE_DATE = "2011-11-30";
 
-	public TasksContentProviderTest() {
-		super(TasksContentProvider.class, "com.example.googletasks.contentprovider");
-	}
-
-	public TaskModel _insert() {
+	public static TaskModel _insert(ContentResolver cr) {
 		int done = 1;
 
 		ContentValues values = new ContentValues(4);
@@ -26,8 +23,8 @@ public class TasksContentProviderTest extends ProviderTestCase2<TasksContentProv
 		values.put(TaskModel.COLUMN_NOTES, TEST_NOTES);
 		values.put(TaskModel.COLUMN_DUE_DATE, TEST_DUE_DATE);
 
-		Uri uri = getMockContentResolver().insert(TasksContentProvider.CONTENT_URI, values);
-		Cursor c = getMockContentResolver().query(uri, null, null, null, null);
+		Uri uri = cr.insert(TasksContentProvider.CONTENT_URI, values);
+		Cursor c = cr.query(uri, null, null, null, null);
 		c.moveToFirst();
 		TaskModel mdl = TaskModel.parse(c);
 		c.close();
@@ -35,8 +32,12 @@ public class TasksContentProviderTest extends ProviderTestCase2<TasksContentProv
 		return mdl;
 	}
 
+	public TasksContentProviderTest() {
+		super(TasksContentProvider.class, "com.example.googletasks.contentprovider");
+	}
+
 	public void testDelete() {
-		TaskModel mdl = _insert();
+		TaskModel mdl = _insert(getMockContentResolver());
 
 		// anzahl vorher
 		Cursor cursor = getMockContentResolver().query(
@@ -67,7 +68,7 @@ public class TasksContentProviderTest extends ProviderTestCase2<TasksContentProv
 		int nVorher = cursor.getCount();
 		cursor.close();
 
-		TaskModel mdl = _insert();
+		TaskModel mdl = _insert(getMockContentResolver());
 
 		// anzahl nachher / differenz
 		cursor = getMockContentResolver().query(
@@ -85,7 +86,7 @@ public class TasksContentProviderTest extends ProviderTestCase2<TasksContentProv
 	}
 
 	public void testUpdate() {
-		TaskModel mdl = _insert();
+		TaskModel mdl = _insert(getMockContentResolver());
 		long id = mdl.getId();
 
 		Uri uri = Uri.withAppendedPath(TasksContentProvider.CONTENT_URI, String.valueOf(id));
