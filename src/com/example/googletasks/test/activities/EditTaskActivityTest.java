@@ -2,6 +2,7 @@ package com.example.googletasks.test.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.test.ActivityUnitTestCase;
 import android.test.RenamingDelegatingContext;
 import android.view.View;
@@ -63,5 +64,19 @@ public class EditTaskActivityTest extends ActivityUnitTestCase<EditTaskActivity>
 		// input felder validieren
 		EditText name = (EditText) getActivity().findViewById(R.id.edit_task_name);
 		assertEquals(mdl.getName(), name.getText().toString());
+	}
+
+	public void testOnCreateSavedState() {
+		// bundle erstellen
+		Bundle savedState = new Bundle(1);
+		savedState.putString("name", "bla blub");
+
+		// activity starten
+		Intent tasksIntent = new Intent(getInstrumentation().getTargetContext(), EditTaskActivity.class);
+		startActivity(tasksIntent, savedState, null);
+
+		// eingabe muss wieder hergestellt sein
+		EditText name = (EditText) getActivity().findViewById(R.id.edit_task_name);
+		assertEquals("bla blub", name.getText().toString());
 	}
 }
