@@ -25,12 +25,12 @@ public class TasksActivityTest extends ActivityUnitTestCase<TasksActivity> {
 	}
 
 	public void testOnMenuItemSelected() {
-		// neuen Task erstellen
+		// menu item mock
 		MenuItem item = EasyMock.createMock(MenuItem.class);
 		EasyMock.expect(item.getItemId()).andReturn(R.id.menuitem_new);
 		EasyMock.replay(item); // mock aktivieren
 
-		// menu item
+		// "neuen Task erstellen" auswählen
 		getActivity().onMenuItemSelected(0, item);
 
 		// edit task activity muss geöffnet werden
