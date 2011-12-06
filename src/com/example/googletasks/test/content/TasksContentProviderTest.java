@@ -44,6 +44,7 @@ public class TasksContentProviderTest extends ProviderTestCase2<TasksContentProv
 				, null, null, null, null
 		);
 		int nVorher = cursor.getCount();
+		cursor.close();
 
 		// löschen
 		getMockContentResolver().delete(Uri.withAppendedPath(TasksContentProvider.CONTENT_URI, String.valueOf(mdl.getId())), null, null);
@@ -54,6 +55,7 @@ public class TasksContentProviderTest extends ProviderTestCase2<TasksContentProv
 				, null, null, null, null
 		);
 		assertEquals(nVorher-1, cursor.getCount());
+		cursor.close();
 	}
 
 	public void testInsert() {
@@ -63,6 +65,7 @@ public class TasksContentProviderTest extends ProviderTestCase2<TasksContentProv
 				, null, null, null, null
 		);
 		int nVorher = cursor.getCount();
+		cursor.close();
 
 		TaskModel mdl = _insert();
 
@@ -72,6 +75,7 @@ public class TasksContentProviderTest extends ProviderTestCase2<TasksContentProv
 				, null, null, null, null
 		);
 		assertEquals(1, cursor.getCount()-nVorher);
+		cursor.close();
 
 		// daten prüfen
 		assertTrue(mdl.isDone());
@@ -95,6 +99,7 @@ public class TasksContentProviderTest extends ProviderTestCase2<TasksContentProv
 		Cursor c = getMockContentResolver().query(uri, null, null, null, null);
 		c.moveToFirst();
 		mdl = TaskModel.parse(c);
+		c.close();
 
 		// assert
 		assertEquals("neuer Name", mdl.getName());
